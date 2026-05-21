@@ -21,6 +21,23 @@ function TodoList() {
     };
     setTodoList([...todoList, newToDo]);
   };
+  const deleteToDo = (id: string) => {
+    const updatedToDo = todoList.filter((toDoItem) => toDoItem.id !== id);
+    setTodoList(updatedToDo);
+  };
+  const completeToDo = (id: string) => {
+    const updatedToDo = todoList.map((toDoItem) => {
+      if (toDoItem.id === id) {
+        return {
+          id: toDoItem.id,
+          description: toDoItem.description,
+          completed: !toDoItem.completed,
+        };
+      }
+      return toDoItem;
+    });
+    setTodoList(updatedToDo);
+  };
   return (
     <>
       <form className="flex flex-wrap" onSubmit={handleSubmit}>
@@ -50,6 +67,12 @@ function TodoList() {
               <th scope="col" className="px-3 py-3 font-medium">
                 Completed
               </th>
+              <th scope="col" className="px-3 py-3 font-medium">
+                Complete To Do
+              </th>
+              <th scope="col" className="px-3 py-3 font-medium">
+                Delete
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -60,6 +83,24 @@ function TodoList() {
                   <td className="px-3 py-4">{toDo.description}</td>
                   <td className="px-3 py-4">
                     {toDo.completed ? "Completed" : "Not Completed"}
+                  </td>
+                  <td>
+                    <button
+                      className="bg-blue-600 text-white rounded-2xl box-border border border-transparent hover:bg-blue-800 focus:ring-4 shadow-xs font-medium leading-5 text-sm px-4 py-2.5 focus:outline-none"
+                      type="button"
+                      onClick={() => completeToDo(toDo.id)}
+                    >
+                      Complete To Do
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      className="bg-red-600 text-white rounded-2xl box-border border border-transparent hover:bg-red-800 focus:ring-4 shadow-xs font-medium leading-5 text-sm px-4 py-2.5 focus:outline-none"
+                      type="button"
+                      onClick={() => deleteToDo(toDo.id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               );
